@@ -1008,6 +1008,7 @@
 
           nextButton.click();
           console.log("Clicked 'next' button");
+          removeSpecificLink();
           setTimeout(() => {
             isAutoClicking = false;
           }, 100); // Set isAutoClicking back to false after a short delay
@@ -1046,7 +1047,7 @@
           removeSpecificLink();
           setupNextButtonInterval();
           document.addEventListener("click", handleUserInteraction);
-        }, 1000);
+        }, 2000);
       });
     </script>
   </body>

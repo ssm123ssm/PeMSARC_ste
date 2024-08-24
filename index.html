@@ -36,6 +36,12 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <script
+      src="https://static.elfsight.com/platform/platform.js"
+      data-use-service-core
+      defer
+    ></script>
+
     <!-- Template Main CSS File -->
     <link href="css/style.css" rel="stylesheet" />
   </head>
@@ -152,6 +158,11 @@
         </p>
       </div>
     </section>
+
+    <div
+      class="elfsight-app-4114bf32-fb7a-4644-83d1-31fe122dfb4d w-full"
+      data-elfsight-app-lazy
+    ></div>
 
     <main id="main">
       <!-- ======= Notice Section ======= -->
@@ -961,6 +972,82 @@
           document.getElementById("demo").innerHTML = "EXPIRED";
         }
       }, 1000);
+    </script>
+
+    <script>
+      // Function to remove the specific <a> tag
+      function removeSpecificLink() {
+        const specificHref =
+          "https://elfsight.com/photo-gallery-widget/?utm_source=websites&utm_medium=clients&utm_content=photo-gallery&utm_term=127.0.0.1&utm_campaign=free-widget";
+
+        // Find the <a> tag with the specific href
+        const linkToRemove = document.querySelector(
+          `a[href="${specificHref}"]`
+        );
+
+        if (linkToRemove) {
+          // Remove the link from the DOM
+          linkToRemove.remove();
+          console.log("Link successfully removed");
+        } else {
+          console.log("Link not found");
+        }
+      }
+
+      let intervalId = null;
+      let isAutoClicking = false;
+
+      function clickNextButton() {
+        const nextButton = document.querySelector('button[aria-label="next"]');
+
+        if (nextButton) {
+          isAutoClicking = true;
+
+          //clear the interval
+          //  clearInterval(intervalId);
+
+          nextButton.click();
+          console.log("Clicked 'next' button");
+          setTimeout(() => {
+            isAutoClicking = false;
+          }, 100); // Set isAutoClicking back to false after a short delay
+        } else {
+          console.log("'Next' button not found");
+        }
+      }
+
+      function setupNextButtonInterval() {
+        intervalId = setInterval(clickNextButton, 6000);
+      }
+
+      function stopAutoClicking() {
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+          console.log("Automatic clicking stopped");
+        }
+      }
+
+      function handleUserInteraction(event) {
+        if (
+          !isAutoClicking &&
+          (event.target.getAttribute("aria-label") === "next" ||
+            event.target.getAttribute("aria-label") === "previous")
+        ) {
+          stopAutoClicking();
+          // Remove the event listener after stopping
+          document.removeEventListener("click", handleUserInteraction);
+        }
+      }
+
+      // Call the function when the DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          removeSpecificLink();
+          setupNextButtonInterval();
+          document.addEventListener("click", handleUserInteraction);
+        }, 1000);
+      });
     </script>
   </body>
 </html>
